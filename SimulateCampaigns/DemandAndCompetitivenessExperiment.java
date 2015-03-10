@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DemandAndCompetitivenessExperiment {
 
 	CampaignSimulator simulator;
-
+	
 	int numTrials;
 	ArrayList<GameResult> results; //all results stored here.
 
@@ -35,7 +35,7 @@ public class DemandAndCompetitivenessExperiment {
 		}
 	}
 
-
+	
 	/**
 	 * calculates all MaxFlows for all days, for all trials
 	 * @param results
@@ -47,7 +47,7 @@ public class DemandAndCompetitivenessExperiment {
 		}
 	}
 
-
+	
 	/**
 	 * constructs all adjacency matrices for for all days, for all trials
 	 * 
@@ -60,7 +60,7 @@ public class DemandAndCompetitivenessExperiment {
 		}
 	}
 
-
+	
 	/**
 	 * runs an experiment that consists of:
 	 * 1) for every trial requested, simulating the creation of campaigns
@@ -82,7 +82,7 @@ public class DemandAndCompetitivenessExperiment {
 		return results;
 	}
 
-
+	
 	/**
 	 * prints a 2D array (or debugging purposes)
 	 * @param matrix
@@ -101,8 +101,8 @@ public class DemandAndCompetitivenessExperiment {
 		System.out.println();
 		System.out.println();
 	}
-
-
+	
+	
 	/**
 	 * Sums the total number of "wasted" impressions.
 	 * i.e. available from source but can't get to sink
@@ -113,7 +113,7 @@ public class DemandAndCompetitivenessExperiment {
 	private int calcUnusedImpressions(int day, GameResult result) {
 		int unused = 0;
 		int[][] unusedFlow = result.getUnusedFlow(day);
-
+		
 		//sum along first row to get edges out of source
 		for(int j = 0;j<unusedFlow[0].length;j++){
 			if(unusedFlow[0][j]>0){
@@ -122,8 +122,8 @@ public class DemandAndCompetitivenessExperiment {
 		}
 		return unused;
 	}
-
-
+	
+	
 	/**
 	 * Sums the total un-met reach that campaigns demanded but didn't receive.
 	 * i.e. potentially available along campaign node to sink edge, but not received at campaign node.
@@ -134,7 +134,7 @@ public class DemandAndCompetitivenessExperiment {
 	private int calcUnmetReach(int day, GameResult result) {
 		int unmet = 0;
 		int[][] unusedFlow = result.getUnusedFlow(day);
-
+		
 		//sum along last col. to get edges into sink
 		for(int i = 0; i<unusedFlow.length;i++){
 			if(unusedFlow[i][unusedFlow[0].length-1]>0){
@@ -144,7 +144,7 @@ public class DemandAndCompetitivenessExperiment {
 		return unmet;
 	}
 
-
+	
 	/**
 	 * prints the unused flow from source to userType and camp. to sink
 	 * Includes the user type or segment in question
@@ -155,7 +155,7 @@ public class DemandAndCompetitivenessExperiment {
 		int[][] unusedFlow = result.getUnusedFlow(day);
 		System.out.println();
 		System.out.println("User Types  Not Shown Ads:");
-
+		
 		//sum along first row to get edges out of source
 		for(int j = 0;j<unusedFlow[0].length;j++){
 			if(unusedFlow[0][j]>0){
@@ -180,15 +180,15 @@ public class DemandAndCompetitivenessExperiment {
 	public static void main(String[] args){
 
 		long seed = -1; //set to value to control randomness
-		int numTrials = 100;
+		int numTrials = 20;
 		//set the parameters you want
 		int[] lengths = {3,5,10}; //3,5,10 current spec
 
 		String[] segments = {"M","F","Y","O","H","L","MY","MO","ML","MH","FY","FO","FL","FH","YL","YH","OL","OH","MYH","MYL",
 				"MOH","MOL","FYH","FYL","FOH","FOL"};
-
-		String[] userTypes = {"MYH","MYL","MOH","MOL","FYH","FYL","FOH","FOL"};
-		int[] sizeUserTypes = {517, 1836, 808, 1785,256, 1980, 407, 2401}; //get Tae's numbers for this
+		
+		String[] userTypes  = {"MYH","MYL","MOH","MOL","FYH","FYL","FOH","FOL"};
+		int[] sizeUserTypes = {527,1836,808,1795,256,1980,407,2401}; //get Tae's numbers for this
 		int[] percents = {20,50,80}; //20,50,80 from TAC document
 		int numDays = 60;
 		int numAgents=8;
@@ -198,35 +198,27 @@ public class DemandAndCompetitivenessExperiment {
 				percents, numDays, numAgents, numTrials, seed);
 
 		ArrayList<GameResult> results = experiment.runExperiment();
-
+		
 		//run the max flow algorithm on every day of every trial
 		experiment.calculateAllMaxFlows();
 
-
+		
 		/* This pulls out a specific day and trial and synthesizes/prints the max flow results
 		 * 
 		 *TODO: this part needs to be extended to create statistics of these results
 		 */
-
+		
 		int trial = 10; //must be less than numTrials
-		//int t = 1;
-
+		int day = 20; //must be less than num days
+		
 		int totalUnusedImps = 0;
-		int totalUnmetReach = 0;
-		for(int t=0;t<numTrials;t++){
-			for(int day =0;day<numDays;day++){
-
-				results.get(t).calcUnusedFlow(day);
-				experiment.printUnusedFlow(day,results.get(t));
-
-				totalUnusedImps+=experiment.calcUnusedImpressions(day,results.get(t));
-				totalUnmetReach+=experiment.calcUnmetReach(day,results.get(t));
-			}
-			
-		}
-		System.out.println("Unsed Impression Opportunities:"+totalUnusedImps);
-		System.out.println("Unmet Campaigns Reach:"+totalUnmetReach);
-		System.out.println("Excess Supply: "+(double)(totalUnusedImps-totalUnmetReach)/(double)(numDays*numTrials));
+		int totalNeededImps = 0;
+		for(int day = 0;day<60;day++){
+		results.get(trial).calcUnusedFlow(day);
+		experiment.printUnusedFlow(day,results.get(trial));
+		System.out.println("Unused Impression Opportunities:"+experiment.calcUnusedImpressions(day,results.get(trial)));
+		System.out.println("Unmet Campaigns Reach:"+experiment.calcUnmetReach(day,results.get(trial)));
+		
 	}
 
 }
