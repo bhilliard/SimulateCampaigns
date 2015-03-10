@@ -166,7 +166,7 @@ public class CampaignSimulator {
 			for(int j = 0;j<graph[0].length;j++){
 				//source to Type
 				if(i==0 && j>0 && j<=userTypes.length){
-					graph[i][j]=sizeUserTypes[j-1];
+					graph[i][j]=(int)Math.floor(sizeUserTypes[j-1]*1.423);
 				}
 				//type to camp
 				else if(i>0 && i<=userTypes.length && j>userTypes.length && j<graph.length-1){

@@ -180,16 +180,16 @@ public class DemandAndCompetitivenessExperiment {
 	public static void main(String[] args){
 
 		long seed = -1; //set to value to control randomness
-		int numTrials = 100;
+		int numTrials = 200;
 		//set the parameters you want
-		int[] lengths = {3,5,10}; //3,5,10 current spec
+		int[] lengths = {7,10,12}; //3,5,10 current spec //try 7,10,14
 
 		String[] segments = {"M","F","Y","O","H","L","MY","MO","ML","MH","FY","FO","FL","FH","YL","YH","OL","OH","MYH","MYL",
 				"MOH","MOL","FYH","FYL","FOH","FOL"};
 
 		String[] userTypes = {"MYH","MYL","MOH","MOL","FYH","FYL","FOH","FOL"};
-		int[] sizeUserTypes = {517, 1836, 808, 1785,256, 1980, 407, 2401}; //get Tae's numbers for this
-		int[] percents = {20,50,80}; //20,50,80 from TAC document
+		int[] sizeUserTypes = {517, 1836, 808, 1795, 256, 1980, 407, 2401}; //get Tae's numbers for this
+		int[] percents = {30,50,80}; //20,50,80 from TAC document try 30 not 20
 		int numDays = 60;
 		int numAgents=8;
 
@@ -202,14 +202,9 @@ public class DemandAndCompetitivenessExperiment {
 		//run the max flow algorithm on every day of every trial
 		experiment.calculateAllMaxFlows();
 
-
 		/* This pulls out a specific day and trial and synthesizes/prints the max flow results
-		 * 
-		 *TODO: this part needs to be extended to create statistics of these results
+		 * TODO: this part needs to be moved into it's own method
 		 */
-
-		int trial = 10; //must be less than numTrials
-		//int t = 1;
 
 		int totalUnusedImps = 0;
 		int totalUnmetReach = 0;
@@ -217,7 +212,7 @@ public class DemandAndCompetitivenessExperiment {
 			for(int day =0;day<numDays;day++){
 
 				results.get(t).calcUnusedFlow(day);
-				experiment.printUnusedFlow(day,results.get(t));
+				//experiment.printUnusedFlow(day,results.get(t));
 
 				totalUnusedImps+=experiment.calcUnusedImpressions(day,results.get(t));
 				totalUnmetReach+=experiment.calcUnmetReach(day,results.get(t));
