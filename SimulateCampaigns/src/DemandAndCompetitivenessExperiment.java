@@ -204,14 +204,17 @@ public class DemandAndCompetitivenessExperiment {
 		 */
 		
 		//set a name for your set of experiments *******************
-		String experimentName = "testing_4";
+		String experimentName = "LargeSearch";
 		
 		//designate a folder where the files should be output to *******************
 		String baseFolder = "/Users/betsy/TACOutput/";
-		boolean calcDailyFlows = true;
+		
+		//set to true if you want to calculate and store the daily max flow problems as well *******************
+		//this will slow things down. I also don't have any stats collected for these at the moment.
+		boolean calcDailyFlows = false;
 
 		//set a number of trials per experimental settings *******************
-		int numTrials = 3;
+		int numTrials = 10;
 
 		//-1 means no seed will be set, set a seed to run the same experiment repeatedly *******************
 		long seed = -1;
@@ -224,21 +227,21 @@ public class DemandAndCompetitivenessExperiment {
 		 */
 		//length parameters (inclusive)
 		int minl1=3;
-		int maxl1=3;
+		int maxl1=8;
 		int minl2=6;
-		int maxl2=7;
+		int maxl2=10;
 		int minl3=10;
-		int maxl3=12;
+		int maxl3=14;
 
 		int lInc = 2; //increments through the search space by this value *******************
 
 		//percent parameters (inclusive)
 		int minp1=20;
-		int maxp1=40;
-		int minp2=40;
+		int maxp1=45;
+		int minp2=30;
 		int maxp2=60;
-		int minp3=60;
-		int maxp3=70;
+		int minp3=40;
+		int maxp3=80;
 
 		int pInc = 5;//increments through the search space by this value *******************
 
