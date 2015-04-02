@@ -169,9 +169,10 @@ public class DemandAndCompetitivenessExperiment {
 			System.out.println("Average NumCampaigns Per Day: "+avgNumCamp);
 			System.out.println("Average Num Unable to Meet Demand per game: "+avgUnableMeet);
 			System.out.println("Average Percent of a Campaign Unmet: "+avgPercUnmet);
-			writer.append(avgNumCamp+","+avgUnableMeet+","+avgPercUnmet+"\n");
+			System.out.println("Average Percent Experienced Competition: "+avgPercUnmet);
+			writer.append(avgNumCamp+","+avgUnableMeet+","+avgPercUnmet+","+percExperienceComp+"\n");
 			System.out.println("perc: "+percExperienceComp+" Total Short: "+totalShort+" total demanded: "+totalDemanded);
-			overallWriter.write(experParamName+","+avgNumCamp+","+avgUnableMeet+","+avgPercUnmet+"\n");
+			overallWriter.append(experParamName+","+avgNumCamp+","+avgUnableMeet+","+avgPercUnmet+","+percExperienceComp+"\n");
 			//TODO set these from main
 			if(avgUnableMeet>20 && avgPercUnmet<.40 && percExperienceComp>=.20){
 				System.out.println("____________________________________________________");
@@ -204,7 +205,7 @@ public class DemandAndCompetitivenessExperiment {
 		 */
 		
 		//set a name for your set of experiments *******************
-		String experimentName = "LargeSearch";
+		String experimentName = "search_goal2";
 		
 		//designate a folder where the files should be output to *******************
 		String baseFolder = "/Users/betsy/TACOutput/";
@@ -214,7 +215,7 @@ public class DemandAndCompetitivenessExperiment {
 		boolean calcDailyFlows = false;
 
 		//set a number of trials per experimental settings *******************
-		int numTrials = 10;
+		int numTrials = 30;
 
 		//-1 means no seed will be set, set a seed to run the same experiment repeatedly *******************
 		long seed = -1;
@@ -226,24 +227,24 @@ public class DemandAndCompetitivenessExperiment {
 		 * Set all of these to search over a space. If you set min==max then it will only run that param value *******************
 		 */
 		//length parameters (inclusive)
-		int minl1=3;
-		int maxl1=8;
-		int minl2=6;
-		int maxl2=10;
+		int minl1=6;
+		int maxl1=6;//8
+		int minl2=8;
+		int maxl2=8;//10
 		int minl3=10;
-		int maxl3=14;
+		int maxl3=10;//14
 
 		int lInc = 2; //increments through the search space by this value *******************
 
 		//percent parameters (inclusive)
-		int minp1=20;
-		int maxp1=45;
-		int minp2=30;
-		int maxp2=60;
-		int minp3=40;
-		int maxp3=80;
+		int minp1=45;
+		int maxp1=55;
+		int minp2=55;
+		int maxp2=65;
+		int minp3=65;
+		int maxp3=75;
 
-		int pInc = 5;//increments through the search space by this value *******************
+		int pInc = 10;//increments through the search space by this value *******************
 
 		int[]percents = new int[3];
 		int[]lengths = new int[3];
