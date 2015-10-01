@@ -17,7 +17,7 @@ import java.util.Random;
  */
 public class DemandAndCompetitivenessExperiment {
 
-	String baseFolder = "/Users/betsy/TACOutput/";
+	String baseFolder = "/TACOutput/";
 
 	boolean calcDailyFlows = true;
 
@@ -75,7 +75,7 @@ public class DemandAndCompetitivenessExperiment {
 	 */
 	public void collectAndOutputStats(GameResult result){
 		//prints this result's values and matrices
-		result.printGameResult(baseFolder+experParamName);
+		result.printGameResult(baseFolder+"/"+experParamName);
 		avgNumCampaignsPerDay+=result.getAverageNumCampaigns();
 		int[] numCampShort = new int[numDays];
 		int[] sizeOfCamp = new int[numDays];
@@ -155,11 +155,14 @@ public class DemandAndCompetitivenessExperiment {
 	 * outputOverallResults
 	 */
 	public void outputOverallResults(FileWriter overallWriter){
-		String overallRes = baseFolder+experParamName+"/finalResults.csv";
-		System.out.println("overall Res file: "+ overallRes);
+		String overallRes = baseFolder+"/"+experParamName;
+		File file = new File(overallRes);
+		boolean success = file.mkdirs();
+		//System.out.println("Here 1: "+success);
+		//System.out.println("Overall Result file: "+ overallRes);
 
 		try {
-			FileWriter writer = new FileWriter(overallRes);
+			FileWriter writer = new FileWriter(overallRes+"/finalResults.csv");
 
 			double avgNumCamp =avgNumCampaignsPerDay/(double)numTrials;
 			double avgUnableMeet = (double)numUnderMet/(double)numTrials;
@@ -205,10 +208,10 @@ public class DemandAndCompetitivenessExperiment {
 		 */
 		
 		//set a name for your set of experiments *******************
-		String experimentName = "search_goal2";
+		String experimentName = "largeSearch_4_3";
 		
 		//designate a folder where the files should be output to *******************
-		String baseFolder = "/Users/betsy/TACOutput/";
+		String baseFolder = "/gpfs/main/home/betsy/TACOutput";
 		
 		//set to true if you want to calculate and store the daily max flow problems as well *******************
 		//this will slow things down. I also don't have any stats collected for these at the moment.
@@ -227,24 +230,24 @@ public class DemandAndCompetitivenessExperiment {
 		 * Set all of these to search over a space. If you set min==max then it will only run that param value *******************
 		 */
 		//length parameters (inclusive)
-		int minl1=6;
-		int maxl1=6;//8
-		int minl2=8;
-		int maxl2=8;//10
+		int minl1=10;
+		int maxl1=10;//7
+		int minl2=10;
+		int maxl2=10;//11
 		int minl3=10;
 		int maxl3=10;//14
 
 		int lInc = 2; //increments through the search space by this value *******************
 
 		//percent parameters (inclusive)
-		int minp1=45;
-		int maxp1=55;
-		int minp2=55;
-		int maxp2=65;
-		int minp3=65;
-		int maxp3=75;
+		int minp1=34;
+		int maxp1=40;//55
+		int minp2=34;
+		int maxp2=40;//65
+		int minp3=34;
+		int maxp3=40;//80
 
-		int pInc = 10;//increments through the search space by this value *******************
+		int pInc = 2;//increments through the search space by this value *******************
 
 		int[]percents = new int[3];
 		int[]lengths = new int[3];
@@ -253,10 +256,11 @@ public class DemandAndCompetitivenessExperiment {
 
 		FileWriter overallWriter;
 		try {
-
-			File file = new File(baseFolder+experimentName);
+			//System.out.println(baseFolder+"/"+experimentName);
+			File file = new File(baseFolder+"/"+experimentName);
+			
 			file.mkdirs();
-			overallWriter = new FileWriter(baseFolder+experimentName+"/summaryRes.csv");
+			overallWriter = new FileWriter(baseFolder+"/"+experimentName+"/summaryRes.csv");
 
 			for(int l1=minl1;l1<=maxl1;l1+=lInc){
 				for(int l2=minl2;l2<=maxl2;l2+=lInc){

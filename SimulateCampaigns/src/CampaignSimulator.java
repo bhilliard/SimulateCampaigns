@@ -453,7 +453,7 @@ public class CampaignSimulator {
 		//set the parameters you want
 		
 		
-		int[] lengths = {3,5,10}; //3,5,10 current spec
+		int[] lengths = {8,8,8}; //3,5,10 current spec
 		
 
 		String[] segments = {"M","F","Y","O","H","L","MY","MO","ML","MH","FY","FO","FL","FH","YL","YH","OL","OH"," MYH","MYL",

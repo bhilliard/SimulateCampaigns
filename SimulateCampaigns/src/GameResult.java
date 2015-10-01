@@ -66,53 +66,56 @@ public class GameResult {
 		 * int[][] multiDayFlow;
 		 *
 		 */
-		baseDirectory = baseDirectory+"/"+resNumber+"/";
+		baseDirectory = baseDirectory+"/"+resNumber;
+		
 		File file = new File(baseDirectory);
-		file.mkdirs();
-		try {
-			FileWriter writer = new FileWriter(baseDirectory+"simResults.csv");
+		
+		boolean success = file.mkdirs();
+		//System.out.println("Printing? : "+success+" BD: "+baseDirectory);
+		//try {
+			//FileWriter writer = new FileWriter(baseDirectory+"/simResults.csv");
 
 			//make writer for base/ResultNum/simResults.csv
 			//System.out.println(marketsHeld.size());
 			for(int day = 0; day<marketsHeld.size();day++){
-				writer.append(day+", markets");
+				//writer.append(day+", markets");
 				for(String mkt : marketsHeld.get(day)){
-					writer.append(","+mkt);
+					//writer.append(","+mkt);
 				}
-				writer.append('\n');
+				//writer.append('\n');
 
-				writer.append(day+", percents");
+				//writer.append(day+", percents");
 				for(Integer perc : percentMarket.get(day)){
 					//print
-					writer.append(","+perc);
+					//writer.append(","+perc);
 				}
-				writer.append('\n');
+				//writer.append('\n');
 				//print ln
 
-				writer.append(day+", length");
+				//writer.append(day+", length");
 				for(Integer length : numDaysCampRun.get(day)){
 					//print
-					writer.append(","+length);
+					//writer.append(","+length);
 				}
-				writer.append('\n');
+				//writer.append('\n');
 
 				//System.out.println(nodes.size());
 				//System.out.println(day);
 				//System.out.println(marketsHeld.size());
 				if(dailyAdjacencies.get(day)!=null && dailyFlows.get(day)!=null){
-					printNodeMatrix(dailyAdjacencies.get(day), nodes.get(day), baseDirectory+"adjacency_"+day+".csv");
-					printNodeMatrix(dailyFlows.get(day), nodes.get(day), baseDirectory+"flow_"+day+".csv");
+					//printNodeMatrix(dailyAdjacencies.get(day), nodes.get(day), baseDirectory+"adjacency_"+day+".csv");
+					//printNodeMatrix(dailyFlows.get(day), nodes.get(day), baseDirectory+"flow_"+day+".csv");
 				}
 
 			}
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
+			//writer.flush();
+			//writer.close();
+		//} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		printNodeMatrix(multiDayAdjacencyMatrix, multiDayNodes, baseDirectory+"multidayAdjacency.csv");
-		printNodeMatrix(multiDayFlow, multiDayNodes, baseDirectory+"multidayFlow.csv");
+			//e.printStackTrace();
+		//}
+		printNodeMatrix(multiDayAdjacencyMatrix, multiDayNodes, baseDirectory+"/multidayAdjacency.csv");
+		printNodeMatrix(multiDayFlow, multiDayNodes, baseDirectory+"/multidayFlow.csv");
 
 
 	}
